@@ -3,8 +3,7 @@ from pytesseract import *
 import cv2
 
 
-filename = "./sample.png"
-# filename1 = "./no_noise.png"
+filename = "./smaller/smaller.png"
 
 # 이미지 전처리
 # img = cv2.imread(filename)
@@ -21,17 +20,17 @@ cv2.imshow('임계처리', thresh1)
 cv2.waitKey(0)
 
 # 이미지 파일 생성
-cv2.imwrite('greyScaleSample.png', thresh1)
+cv2.imwrite('./smaller/greyScaleSmaller.png', thresh1)
 
 
 # 화면에 뜬 이미지 창 닫기
 cv2.destroyAllWindows()
 
 # img to txt file
-image = Image.open('./greyScaleSample.png')
+image = Image.open('./smaller/greyScaleSmaller.png')
 
 text = image_to_string(image, lang="kor")
 
-with open("after_sample.txt", "w") as f:
+with open("./smaller/after_smaller.txt", "w") as f:
     f.write(text)
 # img to txt file
