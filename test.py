@@ -60,22 +60,22 @@ cv2.imwrite('./smaller/smaller_sizeup3_closing.png', closing)
 
 # img to txt file
 
-text = image_to_string(zoom3, lang="kor")
-with open("./smaller/smaller_sizeup3.txt", "w") as f:
+text = image_to_string(zoom3, lang="Hangul")
+with open("./smaller/smaller_hangul_sizeup3.txt", "w") as f:
     f.write(text)
 
-text = image_to_string(erosion, lang="kor")
-with open("./smaller/smaller_sizeup3_erosion.txt", "w") as f:
+text = image_to_string(erosion, lang="Hangul")
+with open("./smaller/smaller_hangul_sizeup3_erosion.txt", "w") as f:
     f.write(text)
 
-text = image_to_string(dilation, lang="kor")
-with open("./smaller/smaller_sizeup3_dilation.txt", "w") as f:
+text = image_to_string(dilation, lang="Hangul")
+with open("./smaller/smaller_hangul_sizeup3_dilation.txt", "w") as f:
     f.write(text)
 
-text = image_to_string(opening, lang="kor")
-with open("./smaller/smaller_sizeup3_opening.txt", "w") as f:
+text = image_to_string(opening, lang="Hangul")
+with open("./smaller/smaller_hangul_sizeup3_opening.txt", "w") as f:
     f.write(text)
 
-text = image_to_string(closing, lang="kor")
-with open("./smaller/smaller_sizeup3_closing.txt", "w") as f:
+text = image_to_string(closing, lang="Hangul")
+with open("./smaller/smaller_hangul_sizeup3_closing.txt", "w") as f:
     f.write(text)
