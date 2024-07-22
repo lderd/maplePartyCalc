@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>이미지 보내기</title>
+  </head>
+  <body>
+    <h1>이미지 보내기 폼</h1>
+    <form method="post" onsubmit="sendImage()" id="image-form">
+      <input
+        name="file"
+        type="file"
+        accept="image/*"
+        onchange="loadFile(this)"
+      />
+      <button type="submit">보내기</button>
+    </form>
+    <div id="image-show"></div>
+    <div id="result-box"></div>
+  </body>
+  <script>
+    function sendImage() {
+      event.preventDefault();
+      const imageForm = document.getElementById("image-form");
+      fetch("http://127.0.0.1:8000/imgToText", {
+        method: "POST",
+        headers: {
+          enctype: "multipart/form-data",
+        },
+        body: new FormData(imageForm),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          const resultBox = document.getElementById("result-box");
+          const p = document.createElement("p");
+          p.innerText = data.all_text;
+          resultBox.appendChild(p);
+        });
+    }
+    function loadFile(input) {
+      let file = input.files[0]; // 선택파일 가져오기
+
+      let newImage = document.createElement("img"); //새 이미지 태그 생성
+
+      //이미지 source 가져오기
+      newImage.src = URL.createObjectURL(file);
+      newImage.style.width = "10%"; //div에 꽉차게 넣으려고
+      newImage.style.height = "10%";
+      newImage.style.objectFit = "cover"; // div에 넘치지 않고 들어가게
+
+      //이미지를 image-show div에 추가
+      let container = document.getElementById("image-show");
+      container.appendChild(newImage);
+    }
+  </script>
+</html>

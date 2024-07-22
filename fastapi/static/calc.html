@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>분배금 계산기</title>
+    <!-- 부트스트랩 css -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <!-- 
+      입력 string이니까 split
+      나머지 -> ' '(띄어쓰기)로 구분/ ...이용해서 여러개의 인자 받아서 더할것임
+      수에큐 : [가격]  *  [수량] 각각 입력하도록
+      
+      피시방, 집을 구분할건데 어떻게
+      -> 그냥 칸을 2개씩 만든다.
+      딱히 서버를 사용할 것도 아니고 귀찮으니까 form태그에서 get요청으로 계산해달라고 요청을 보낸다?
+      
+      그럴거면 그냥 버튼 만드는게 더 편하지 않은가
+      버튼에 이벤트리스너 달아서 위에 입력한 내용대로 계산해달라.
+    -->
+    <div style="min-height: 1000px" class="container-fluid mt-3">
+      <h1>분배금 계산기</h1>
+
+      <br />
+      <hr />
+      <br />
+
+      <h3>PC방에서 받음</h3>
+      <div>
+        <label class="form-label" for="pc-etc">공백으로 가격 구분</label><br />
+        <input
+          class="form-control"
+          type="textarea"
+          id="pc-etc"
+          placeholder=""
+        />
+      </div>
+
+      <hr />
+
+      <h3>집에서 받음</h3>
+      <div>
+        <br />
+        <label class="form-label" for="home-etc">공백으로 가격 구분</label
+        ><br />
+        <input class="form-control" type="text" id="home-etc" />
+      </div>
+
+      <hr />
+
+      <div>
+        <h3>나 제외</h3>
+        <label for="market-people">경매장 분배 인원</label>
+        <input type="text" id="market-people" /> 명
+        <br />
+        <br />
+        <label for="trade-people">거래창 분배 인원</label>
+        <input type="text" id="trade-people" /> 명
+      </div>
+
+      <br />
+
+      <div class="d-flex justify-content-center my-3">
+        <button class="btn-primary rounded-3" id="calculate">계산하기</button>
+      </div>
+
+      <br />
+      <hr />
+      <br />
+
+      <div class="text-center">
+        <h2>
+          경매장 분배받는 사람 금액 : <span id="market-resultTag">결과</span>
+        </h2>
+        <br />
+        <h2>
+          거래창 분배받는 사람 금액 : <span id="trade-resultTag">결과</span>
+        </h2>
+      </div>
+    </div>
+
+    <!-- 부트스트랩 자바스크립트 -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      const btnCalculate = document.querySelector("#calculate");
+      btnCalculate.addEventListener("click", (event) => {
+        const pcEtc = document.querySelector("#pc-etc").value.split(" ");
+        const pcEtcNum = pcEtc.map((str) => {
+          const num = Number(str);
+          return num;
+        });
+
+        let homeEtc = document.querySelector("#home-etc").value.split(" ");
+        const homeEtcNum = homeEtc.map((str) => {
+          const num = Number(str);
+          return num;
+        });
+
+        const pcList = [...pcEtcNum];
+        const pcSum = pcList.reduce((acc, num) => {
+          return acc + num;
+        }, 0);
+
+        const homeList = [...homeEtcNum];
+        const homeSum = homeList.reduce((acc, num) => {
+          return acc + num;
+        }, 0);
+
+        const marketPeople = Number(
+          document.querySelector("#market-people").value
+        );
+        const tradePeople = Number(
+          document.querySelector("#trade-people").value
+        );
+        const result =
+          ((pcSum * 0.97 + homeSum * 0.95) * 10000) /
+          (1 + marketPeople / 0.97 + tradePeople / 0.95);
+
+        const marketResultTag = document.querySelector("#market-resultTag");
+        marketResultTag.innerText = result / 0.97;
+        const tradeResultTag = document.querySelector("#trade-resultTag");
+        tradeResultTag.innerText = result / 0.95;
+      });
+    </script>
+  </body>
+</html>
