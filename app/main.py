@@ -23,6 +23,10 @@ def calc():
 def word():
     return FileResponse("./static/word.html")
 
+@app.get("/allinone", response_class=FileResponse)
+def word():
+    return FileResponse("./static/allInOne.html")
+
 @app.get("/imgToText", response_class=FileResponse)
 def ImgToText():
     return FileResponse("./static/imgToText.html")

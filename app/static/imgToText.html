@@ -33,9 +33,12 @@
         .then((response) => response.json())
         .then((data) => {
           const resultBox = document.getElementById("result-box");
-          const p = document.createElement("p");
-          p.innerText = data.all_text;
-          resultBox.appendChild(p);
+
+          const textarea = document.createElement("textarea");
+          textarea.rows = "10";
+          textarea.cols = "50";
+          textarea.innerText = data.all_text;
+          resultBox.appendChild(textarea);
         });
     }
     function loadFile(input) {

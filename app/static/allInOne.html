@@ -20,7 +20,9 @@
     </div>
     <hr />
     <div id="page-div">
-      <div id="img-to-text"><h1>사진에서 텍스트 추출</h1></div>
+      <div id="img-to-text">
+        <h1>사진에서 텍스트 추출</h1>
+      </div>
       <div id="word" hidden>
         <h1>텍스트에서 아이템 추출</h1>
         <br />
@@ -72,27 +74,30 @@
     //
     // 텍스트에서 아이템 추출
     function wordCalculate() {
-        theText = `prefix${document.getElementById('the-text').value.trim()}suffix`
+        theText = document.getElementById('the-text').value.trim()
         const tableList = {};
-        tableList.검은환생의불꽃 = theText.split('검은 환생의 불꽃').length - 1  // 검은 환생의 불꽃
-        tableList.영원한환생의불꽃 = theText.split('영원한 환생의').length - 1  // 영원한 환생의
-        tableList.강력한환생의불꽃 = theText.split('강력한 환생의').length - 1  // 강력한 환생의
+        tableList['검은 환생의 불꽃'] = theText.split('검은 환생의 불꽃').length - 1  // 검은 환생의 불꽃
+        tableList['영원한 환생의 불꽃'] = theText.split('영원한 환생의').length - 1  // 영원한 환생의
+        tableList['강력한 환생의 불꽃'] = theText.split('강력한 환생의').length - 1  // 강력한 환생의
         
-        tableList.영원히꺼지지않는불꽃 = theText.split('영원히 꺼지지').length - 1  // 영원히 꺼지지 (영꺼 + 검꺼)
-        tableList.꺼지지않는불꽃 = theText.split('꺼지지 않는 불꽃').length - 1  // 꺼지지 않는 불꽃
+        tableList['태초의 정수'] = theText.split('태초의 정수').length - 1  // 태초의 정수
+        tableList['영원히 꺼지지 않는 불꽃'] = theText.split('영원히 꺼지지').length - 1  // 영원히 꺼지지 (영꺼 + 검꺼)
+        tableList['꺼지지 않는 불꽃'] = theText.split('꺼지지 않는 불꽃').length - 1  // 꺼지지 않는 불꽃
         
-        tableList.아케인셰이드방어구상자 = theText.split('아케인셰이드 방').length - 1  // 아케인셰이드 방
-        tableList.아케인셰이드무기상자 = theText.split('아케인셰이드 무').length - 1  // 아케인셰이드 무
+        tableList['아케인셰이드 방어구 상자'] = theText.split('아케인셰이드 방').length - 1  // 아케인셰이드 방
+        tableList['아케인셰이드 무기 상자'] = theText.split('아케인셰이드 무').length - 1  // 아케인셰이드 무
         
-        tableList.프리미엄펫장비스크롤교환권 = theText.split('프리미엄 펫장비').length - 1  // 프리미엄 펫장비
+        tableList['매지컬 무기 주문서 교환권'] = theText.split('매지컬 무기').length - 1  // 프리미엄 펫장비
+        tableList['프리미엄 펫장비 스크롤 교환권'] = theText.split('프리미엄 펫장비').length - 1  // 프리미엄 펫장비
+        tableList['프리미엄 악세서리 스크롤 교환권'] = theText.split('프리미엄 악세').length - 1  // 프리미엄 펫장비
         
-        tableList.소형고농축경험축적의비약레시피 = theText.split('소형 고농축 경').length - 1  // 소형 고농축 경
-        tableList.소형경험축적의비약 = theText.split('소형 경험 축적').length - 1  // 소형 경험 축적
-        tableList.놀라운긍정의혼돈주문서 = theText.split('놀라운 긍정의').length - 1  // 놀라운 긍정의
-        tableList.대형보스명예의훈장 = theText.split('대형 보스 명예').length - 1  // 대형 보스 명예
-        tableList.반짝이는빨간별물약 = theText.split('반짝이는 빨간').length - 1  // 반짝이는 빨간
-        tableList.반짝이는파란별물약 = theText.split('반짝이는 파란').length - 1  // 반짝이는 파란
-        tableList.추가경험치쿠폰 = theText.split('추가 경험치 50').length - 1  // 추가 경험치 50
+        tableList['소형 고농축 경험 축적의 비약'] = theText.split('소형 고농축 경').length - 1  // 소형 고농축 경
+        tableList['소형 경험 축적의 비약'] = theText.split('소형 경험 축적').length - 1  // 소형 경험 축적
+        tableList['놀라운 긍정의 혼돈주문서'] = theText.split('놀라운 긍정의').length - 1  // 놀라운 긍정의
+        tableList['대형 보스 명예의 훈장'] = theText.split('대형 보스 명예').length - 1  // 대형 보스 명예
+        tableList['반짝이는 빨간별 물약'] = theText.split('반짝이는 빨간').length - 1  // 반짝이는 빨간
+        tableList['반짝이는 파란별 물약'] = theText.split('반짝이는 파란').length - 1  // 반짝이는 파란
+        tableList['추가경험치 50% 쿠폰'] = theText.split('추가 경험치 50').length - 1  // 추가 경험치 50
         
         const tableBody = document.getElementById('table-body')
         tableBody.replaceChildren()
