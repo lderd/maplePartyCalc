@@ -16,33 +16,35 @@ class Settings(BaseSettings):
     aws_access_key: str = ""
     aws_secret_access_key: str = ""
     bucket_name: str = Field("", alias="AWS_BUCKET_NAME")
+    dirname: str = os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__))))
 
 
 settings = Settings()
 
 app = FastAPI()
 
+
 @app.get("/calc", response_class=FileResponse)
 def calc():
-    return FileResponse("./static/calc.html")
+    return FileResponse(f"{settings.dirname}/static/calc.html")
 
 @app.get("/word", response_class=FileResponse)
 def word():
-    return FileResponse("./static/word.html")
+    return FileResponse(f"{settings.dirname}/static/word.html")
 
 @app.get("/allinone", response_class=FileResponse)
 def word():
-    return FileResponse("./static/allInOne.html")
+    return FileResponse(f"{settings.dirname}/static/allInOne.html")
 
 @app.get("/imgToText", response_class=FileResponse)
 def ImgToText():
-    return FileResponse("./static/imgToText.html")
+    return FileResponse(f"{settings.dirname}/static/imgToText.html")
 
 @app.post("/imgToText")
 async def ImgToTextPost(file: UploadFile):
     img = Image.open(file.file)
     filename = secrets.token_urlsafe(16) + ".png"
-    img.save(f'./images/{filename}', "png")
+    img.save(f'/images/{filename}', "png")
     # s3 작업
     s3_client = boto3.client(
     "s3",
@@ -50,7 +52,7 @@ async def ImgToTextPost(file: UploadFile):
     aws_secret_access_key=settings.aws_secret_access_key, # 본인 소유의 키를 입력
     region_name="us-east-2",
     )
-    s3_client.upload_file(f'./images/{filename}', settings.bucket_name, filename)
+    s3_client.upload_file(f'{settings.dirname}/images/{filename}', settings.bucket_name, filename)
     # s3 작업
 
     # img to text
@@ -59,6 +61,6 @@ async def ImgToTextPost(file: UploadFile):
     headers= {"apikey": settings.apilayer_api_key}
     response = requests.request("GET", url, headers=headers, data = payload).json()
     
-    os.remove(f'./images/{filename}')
+    os.remove(f'{settings.dirname}/images/{filename}')
 
     return response
