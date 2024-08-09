@@ -42,25 +42,29 @@ def ImgToText():
 
 @app.post("/imgToText")
 async def ImgToTextPost(file: UploadFile):
-    img = Image.open(file.file)
-    filename = secrets.token_urlsafe(16) + ".png"
-    img.save(f'/images/{filename}', "png")
-    # s3 작업
-    s3_client = boto3.client(
-    "s3",
-    aws_access_key_id=settings.aws_access_key, # 본인 소유의 키를 입력
-    aws_secret_access_key=settings.aws_secret_access_key, # 본인 소유의 키를 입력
-    region_name="us-east-2",
-    )
-    s3_client.upload_file(f'{settings.dirname}/images/{filename}', settings.bucket_name, filename)
-    # s3 작업
+    try :
+        img = Image.open(file.file)
+        filename = secrets.token_urlsafe(16) + ".png"
+        response = {"all_text" : f"{img}, {filename}"}
+    #     img.save(f'{settings.dirname}/images/{filename}', "png")
+    #     # s3 작업
+    #     s3_client = boto3.client(
+    #     "s3",
+    #     aws_access_key_id=settings.aws_access_key, # 본인 소유의 키를 입력
+    #     aws_secret_access_key=settings.aws_secret_access_key, # 본인 소유의 키를 입력
+    #     region_name="us-east-2",
+    #     )
+    #     s3_client.upload_file(f'{settings.dirname}/images/{filename}', settings.bucket_name, filename)
+    #     # s3 작업
 
-    # img to text
-    url = f"https://api.apilayer.com/image_to_text/url?url=https://myimagetotextproject.s3.us-east-2.amazonaws.com/{filename}"
-    payload = {}
-    headers= {"apikey": settings.apilayer_api_key}
-    response = requests.request("GET", url, headers=headers, data = payload).json()
-    
-    os.remove(f'{settings.dirname}/images/{filename}')
+    #     # img to text
+    #     url = f"https://api.apilayer.com/image_to_text/url?url=https://myimagetotextproject.s3.us-east-2.amazonaws.com/{filename}"
+    #     payload = {}
+    #     headers= {"apikey": settings.apilayer_api_key}
+    #     response = requests.request("GET", url, headers=headers, data = payload).json()
+        
+    #     os.remove(f'{settings.dirname}/images/{filename}')
+    except :
+        return {"all_text": "문제가 발생했습니다 다시 시도해 주세요"}
 
     return response
