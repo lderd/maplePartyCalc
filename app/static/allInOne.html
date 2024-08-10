@@ -10,60 +10,100 @@
       rel="stylesheet"
       integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
       crossorigin="anonymous"
-      />
-    </head>
-    <body class="m-3">
-      <div id="button_div">
-        <button data-page-id="img_to_text">아이템 등장 횟수</button>
-        <button data-page-id="calc">분배금 계산기</button>
-      </div>
-      <hr />
-      <div id="page_div">
-        <div id="img_to_text">
-          <h1>아이템 등장 횟수</h1>
+    />
+    <style>
+      #image_form_container {
+        width: 70%;
+        border: 1px solid black;
+        padding: 2px;
+      }
+      #image_input {
+        opacity: 0;
+      }
+      #image_container {
+        overflow: auto;
+        flex-direction: row;
+        height: 8rem;
+        margin: 0.3rem;
+        border: solid 0.1rem black;
+      }
+      .image_box {
+        flex-direction: column;
+        align-items: center;
+        display: inline-flex;
+        height: 95%;
+        width: 20%;
+        margin: 0.1rem;
+      }
+      .preview_image {
+        display: flex;
+        width: 90%;
+        height: 75%;
+        object-fit: cover;
+        margin: 0.1rem auto;
+      }
+      .image_title {
+        display: inline-block;
+        text-align: center;
+        font-size: 10px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        width: 50%;
+      }
+    </style>
+  </head>
+  <body class="m-3">
+    <div id="button_div">
+      <button data-page-id="img_to_text">아이템 등장 횟수</button>
+      <button data-page-id="calc">분배금 계산기</button>
+    </div>
+    <hr />
+    <div id="page_div">
+      <div id="img_to_text">
+        <h1>아이템 등장 횟수</h1>
+        <br />
+        <p>주의 : 등장 횟수와 수량이 맞지 않을 수 있습니다.</p>
+        <p>예시)</p>
+        <p>꺼지지 않는 불꽃 아이템을 2개 얻었습니다. (기타)    =>    등장 1회, 획득 2개</p>
+        <hr />
+        <div id="image_form_container">
+          <form onsubmit="sendImage()">
+            <label
+              id="image_input_label"
+              for="image_input"
+              style="background-color: bisque"
+              >이미지 선택하기</label
+            >
+            <input
+              name="file"
+              id="image_input"
+              type="file"
+              accept="image/*"
+              onchange="loadFile(this)"
+              required
+              multiple
+            />
+            <button type="submit" id="img_to_text_submit">보내기</button>
+          </form>
+        </div>
+        <div id="image_container"></div>
+        <div id="result_text">
+            <textarea style="width: 70%;resize: none;" rows="15" id="the_text" /></textarea>
           <br />
-          <p>주의 : 등장 횟수와 수량이 맞지 않을 수 있습니다.</p>
-          <p>예시)</p>
-          <p>꺼지지 않는 불꽃 아이템을 2개 얻었습니다. (기타)    =>    등장 1회, 획득 2개</p>
-          <hr />
-          <div id="image_form_container">
-            <form onsubmit="sendImage()">
-              <label
-                id="image_input_label"
-                for="image_input"
-                style="background-color: bisque"
-                >이미지 선택하기</label
-              >
-              <input
-                name="file"
-                id="image_input"
-                type="file"
-                accept="image/*"
-                onchange="loadFile(this)"
-                required
-                multiple
-              />
-              <button type="submit" id="img_to_text_submit">보내기</button>
-            </form>
-          </div>
-          <div id="image_container"></div>
-          <div id="result_text">
-              <textarea style="width: 70%;resize: none;" rows="15" id="the_text" /></textarea>
-            <br />
-            <button onclick="wordCalculate()">제출하기</button>
-          </div>
-          <table class="table table-sm" style="width: 30%;;">
-            <thead>
-              <tr>
-                <th scope="col">품목</th>
-                <th scope="col">등장 횟수</th>
-              </tr>
-            </thead>
-            <tbody id="table_body">
-            </tbody>
-          </table>
-      </div>
-      <div id="calc" hidden><h1>분배금 계산기</h1></div>
+          <button onclick="wordCalculate()">제출하기</button>
+        </div>
+        <table class="table table-sm" style="width: 30%;;">
+          <thead>
+            <tr>
+              <th scope="col" class="items_cnt">품목</th>
+              <th scope="col">등장 횟수</th>
+            </tr>
+          </thead>
+          <tbody id="table_body">
+          </tbody>
+        </table>
+    </div>
+    <div id="calc" hidden><h1>분배금 계산기</h1></div>
     </div>
     <!-- 부트스트랩 자바스크립트 -->
     <script
@@ -71,188 +111,148 @@
       integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
       crossorigin="anonymous"
     ></script>
-  </body>
-  <script>
-    // 페이지 선택
-    function pageSelect() {
-      let selected = "img_to_text";
-      const buttonDiv = document.getElementById("button_div");
-      buttonDiv.onclick = function (event) {
-        const id = event.target.dataset.pageId;
-        if (!id) return;
-        document.getElementById(selected).hidden = true;
-        document.getElementById(id).hidden = false;
-        selected = id;
-      };
-    }
-    pageSelect();
-    //
-    // 텍스트에서 아이템 추출
-    function wordCalculate() {
-        theText = document.getElementById('the_text').value.trim()
-        const tableList = {};
-        tableList['검은 환생의 불꽃'] = theText.split('검은 환생의 불꽃').length - 1  // 검은 환생의 불꽃
-        tableList['영원한 환생의 불꽃'] = theText.split('영원한 환생의').length - 1  // 영원한 환생의
-        tableList['강력한 환생의 불꽃'] = theText.split('강력한 환생의').length - 1  // 강력한 환생의
-        
-        tableList['태초의 정수'] = theText.split('태초의 정수').length - 1  // 태초의 정수
-        tableList['영원히 꺼지지 않는 불꽃'] = theText.split('영원히 꺼지지').length - 1  // 영원히 꺼지지 (영꺼 + 검꺼)
-        tableList['꺼지지 않는 불꽃'] = theText.split('꺼지지 않는 불꽃').length - 1  // 꺼지지 않는 불꽃
-        
-        tableList['아케인셰이드 방어구 상자'] = theText.split('아케인셰이드 방').length - 1  // 아케인셰이드 방
-        tableList['아케인셰이드 무기 상자'] = theText.split('아케인셰이드 무').length - 1  // 아케인셰이드 무
-        
-        tableList['매지컬 무기 주문서 교환권'] = theText.split('매지컬 무기').length - 1  // 프리미엄 펫장비
-        tableList['프리미엄 펫장비 스크롤 교환권'] = theText.split('프리미엄 펫장비').length - 1  // 프리미엄 펫장비
-        tableList['프리미엄 악세서리 스크롤 교환권'] = theText.split('프리미엄 악세').length - 1  // 프리미엄 펫장비
-        
-        tableList['소형 고농축 경험 축적의 비약'] = theText.split('소형 고농축 경').length - 1  // 소형 고농축 경
-        tableList['소형 경험 축적의 비약'] = theText.split('소형 경험 축적').length - 1  // 소형 경험 축적
-        tableList['놀라운 긍정의 혼돈주문서'] = theText.split('놀라운 긍정의').length - 1  // 놀라운 긍정의
-        tableList['대형 보스 명예의 훈장'] = theText.split('대형 보스 명예').length - 1  // 대형 보스 명예
-        tableList['반짝이는 빨간별 물약'] = theText.split('반짝이는 빨간').length - 1  // 반짝이는 빨간
-        tableList['반짝이는 파란별 물약'] = theText.split('반짝이는 파란').length - 1  // 반짝이는 파란
-        tableList['추가경험치 50% 쿠폰'] = theText.split('추가 경험치 50').length - 1  // 추가 경험치 50
-        
-        const tableBody = document.getElementById('table_body')
-        tableBody.replaceChildren()
-        for (const key in tableList) {
-          const tableR = tableBody.insertRow();
-          const tableC1 = tableR.insertCell();
-          const tableD1 = document.createTextNode(`${key}`)
-          tableC1.appendChild(tableD1)
-          const tableC2 = tableR.insertCell();
-          const tableD2 = document.createTextNode(`${tableList[key]}`)
-          tableC2.appendChild(tableD2)
+    <script>
+      // 페이지 선택
+      function pageSelect() {
+        let selected = "img_to_text";
+        const buttonDiv = document.getElementById("button_div");
+        buttonDiv.onclick = function (event) {
+          const id = event.target.dataset.pageId;
+          if (!id) return;
+          document.getElementById(selected).hidden = true;
+          document.getElementById(id).hidden = false;
+          selected = id;
+        };
+      }
+      pageSelect();
+      //
+      // 텍스트에서 아이템 추출
+      function wordCalculate() {
+          theText = document.getElementById('the_text').value.trim()
+          const tableList = {};
+          tableList['검은 환생의 불꽃'] = theText.split('검은 환생의 불꽃').length - 1  // 검은 환생의 불꽃
+          tableList['영원한 환생의 불꽃'] = theText.split('영원한 환생의').length - 1  // 영원한 환생의
+          tableList['강력한 환생의 불꽃'] = theText.split('강력한 환생의').length - 1  // 강력한 환생의
+          
+          tableList['태초의 정수'] = theText.split('태초의 정수').length - 1  // 태초의 정수
+          tableList['영원히 꺼지지 않는 불꽃'] = theText.split('영원히 꺼지지').length - 1  // 영원히 꺼지지 (영꺼 + 검꺼)
+          tableList['꺼지지 않는 불꽃'] = theText.split('꺼지지 않는 불꽃').length - 1  // 꺼지지 않는 불꽃
+          
+          tableList['아케인셰이드 방어구 상자'] = theText.split('아케인셰이드 방').length - 1  // 아케인셰이드 방
+          tableList['아케인셰이드 무기 상자'] = theText.split('아케인셰이드 무').length - 1  // 아케인셰이드 무
+          
+          tableList['매지컬 무기 주문서 교환권'] = theText.split('매지컬 무기').length - 1  // 프리미엄 펫장비
+          tableList['프리미엄 펫장비 스크롤 교환권'] = theText.split('프리미엄 펫장비').length - 1  // 프리미엄 펫장비
+          tableList['프리미엄 악세서리 스크롤 교환권'] = theText.split('프리미엄 악세').length - 1  // 프리미엄 펫장비
+          
+          tableList['소형 고농축 경험 축적의 비약'] = theText.split('소형 고농축 경').length - 1  // 소형 고농축 경
+          tableList['소형 경험 축적의 비약'] = theText.split('소형 경험 축적').length - 1  // 소형 경험 축적
+          tableList['놀라운 긍정의 혼돈주문서'] = theText.split('놀라운 긍정의').length - 1  // 놀라운 긍정의
+          tableList['대형 보스 명예의 훈장'] = theText.split('대형 보스 명예').length - 1  // 대형 보스 명예
+          tableList['반짝이는 빨간별 물약'] = theText.split('반짝이는 빨간').length - 1  // 반짝이는 빨간
+          tableList['반짝이는 파란별 물약'] = theText.split('반짝이는 파란').length - 1  // 반짝이는 파란
+          tableList['추가경험치 50% 쿠폰'] = theText.split('추가 경험치 50').length - 1  // 추가 경험치 50
+          
+          const tableBody = document.getElementById('table_body')
+          tableBody.replaceChildren()
+          for (const key in tableList) {
+            const tableR = tableBody.insertRow();
+            const tableC1 = tableR.insertCell();
+            const tableD1 = document.createTextNode(`${key}`)
+            tableC1.appendChild(tableD1)
+            const tableC2 = tableR.insertCell();
+            const tableD2 = document.createTextNode(`${tableList[key]}`)
+            tableC2.appendChild(tableD2)
+          }
         }
-      }
-    // 
-    function sendImage() {
-      event.preventDefault();
-      const img_to_text_submit = document.getElementById("img_to_text_submit");
-      img_to_text_submit.disabled = true;
-      const imagefiles = document.getElementById("image_input").files;
-      const textarea = document.getElementById("the_text");
-      let img_to_text_result = "";
-      // 로딩스피너 만들어 넣기
-      for (let index = 0; index < imagefiles.length; index++) {
-        const spinner_container = document.createElement("div");
-        spinner_container.className =
-          "position-absolute top-50 start-50 translate-middle";
-        spinner_container.id = `spinner_${index}`;
+      // 
+      function sendImage() {
+        event.preventDefault();
+        const img_to_text_submit = document.getElementById("img_to_text_submit");
+        img_to_text_submit.disabled = true;
+        const imagefiles = document.getElementById("image_input").files;
+        const textarea = document.getElementById("the_text");
+        let img_to_text_result = "";
+        // 로딩스피너 만들어 넣기
+        for (let index = 0; index < imagefiles.length; index++) {
+          const spinner_container = document.createElement("div");
+          spinner_container.className =
+            "position-absolute top-50 start-50 translate-middle";
+          spinner_container.id = `spinner_${index}`;
 
-        const spinner = document.createElement("div");
-        spinner.className = "spinner-border";
-        spinner.role = "status";
+          const spinner = document.createElement("div");
+          spinner.className = "spinner-border";
+          spinner.role = "status";
 
-        const spinner_span = document.createElement("span");
-        spinner_span.className = "visually-hidden";
-        spinner_span.innerText = "Loading...";
+          const spinner_span = document.createElement("span");
+          spinner_span.className = "visually-hidden";
+          spinner_span.innerText = "Loading...";
 
-        spinner.appendChild(spinner_span);
-        spinner_container.appendChild(spinner);
+          spinner.appendChild(spinner_span);
+          spinner_container.appendChild(spinner);
 
-        const img_div = document.getElementById(`image_box_${index}`);
-        img_div.appendChild(spinner_container);
-      }
-      for (let index = 0; index < imagefiles.length; index++) {
-        const imagefile = new FormData();
-        imagefile.append("file", imagefiles.item(index));
-        fetch("http://127.0.0.1:8000/imgToText", {
-          method: "POST",
-          headers: {
-            enctype: "multipart/form-data",
-          },
-          body: imagefile,
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            console.log(data.all_text);
-            img_to_text_result += data.all_text;
-            textarea.innerText = img_to_text_result;
-            const spinner_container = document.getElementById(
-              `spinner_${index}`
-            );
-            spinner_container.remove();
+          const img_div = document.getElementById(`image_box_${index}`);
+          img_div.appendChild(spinner_container);
+        }
+        for (let index = 0; index < imagefiles.length; index++) {
+          const imagefile = new FormData();
+          imagefile.append("file", imagefiles.item(index));
+          fetch("http://127.0.0.1:8000/imgToText", {
+            method: "POST",
+            headers: {
+              enctype: "multipart/form-data",
+            },
+            body: imagefile,
           })
-          .catch((error) => console.log(error));
-      }
-    }
-    function loadFile(input) {
-      const upload_label = document.getElementById("image_input_label");
-      upload_label.innerText = "이미지 다시 선택하기";
-      const files = input.files; // 선택파일 가져오기
-      const container = document.getElementById("image_container");
-      container.replaceChildren();
-      let typeCheck = true;
-      [...files].forEach((element) => {
-        if (!element.type.startsWith("image/")) {
-          typeCheck = false;
-          alert("이미지 파일만 업로드 가능합니다");
-          return;
+            .then((response) => response.json())
+            .then((data) => {
+              console.log(data.all_text);
+              img_to_text_result += data.all_text;
+              textarea.innerText = img_to_text_result;
+              const spinner_container = document.getElementById(
+                `spinner_${index}`
+              );
+              spinner_container.remove();
+            })
+            .catch((error) => console.log(error));
         }
-      });
-      img_to_text_submit.disabled = false;
-      if (!typeCheck) return;
-      for (let index = 0; index < files.length; index++) {
-        const image_box = document.createElement("div"); //이미지와 이름을 모아 넣기 위한 공간
-        //이미지 source 가져오기
-        let newImage = document.createElement("img"); //새 이미지 태그 생성
-        newImage.src = URL.createObjectURL(files.item(index));
-        newImage.className = "preview_image";
-
-        // 이미지 이름 가져오기
-        const imageTitle = document.createElement("span");
-        imageTitle.innerText = files.item(index).name;
-        imageTitle.className = "image_title";
-
-        //이미지를 image-show div에 추가
-        image_box.appendChild(newImage);
-        image_box.appendChild(imageTitle);
-        image_box.id = `image_box_${index}`;
-        image_box.className = "image_box position-relative";
-        container.appendChild(image_box);
       }
-    }
-  </script>
-  <style>
-    #image_form_container {
-      width: 70%;
-      border: 1px solid black;
-      padding: 2px;
-    }
-    #image_input {
-      opacity: 0;
-    }
-    #image_container {
-      overflow: auto;
-      flex-direction: row;
-      height: 8rem;
-      margin: 0.3rem;
-      border: solid 0.1rem black;
-    }
-    .image_box {
-      flex-direction: column;
-      align-items: center;
-      display: inline-flex;
-      height: 95%;
-      width: 20%;
-      margin: 0.1rem;
-    }
-    .preview_image {
-      display: flex;
-      width: 90%;
-      height: 75%;
-      object-fit: cover;
-      margin: 0.1rem auto;
-    }
-    .image_title {
-      display: inline-block;
-      text-align: center;
-      font-size: 10px;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      width: 50%;
-    }
-  </style>
+      function loadFile(input) {
+        const upload_label = document.getElementById("image_input_label");
+        upload_label.innerText = "이미지 다시 선택하기";
+        const files = input.files; // 선택파일 가져오기
+        const container = document.getElementById("image_container");
+        container.replaceChildren();
+        let typeCheck = true;
+        [...files].forEach((element) => {
+          if (!element.type.startsWith("image/")) {
+            typeCheck = false;
+            alert("이미지 파일만 업로드 가능합니다");
+            return;
+          }
+        });
+        img_to_text_submit.disabled = false;
+        if (!typeCheck) return;
+        for (let index = 0; index < files.length; index++) {
+          const image_box = document.createElement("div"); //이미지와 이름을 모아 넣기 위한 공간
+          //이미지 source 가져오기
+          let newImage = document.createElement("img"); //새 이미지 태그 생성
+          newImage.src = URL.createObjectURL(files.item(index));
+          newImage.className = "preview_image";
+
+          // 이미지 이름 가져오기
+          const imageTitle = document.createElement("span");
+          imageTitle.innerText = files.item(index).name;
+          imageTitle.className = "image_title";
+
+          //이미지를 image-show div에 추가
+          image_box.appendChild(newImage);
+          image_box.appendChild(imageTitle);
+          image_box.id = `image_box_${index}`;
+          image_box.className = "image_box position-relative";
+          container.appendChild(image_box);
+        }
+      }
+    </script>
+  </body>
 </html>
