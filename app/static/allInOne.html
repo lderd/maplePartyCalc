@@ -299,7 +299,8 @@
         for (let index = 0; index < imagefiles.length; index++) {
           const imagefile = new FormData();
           imagefile.append("file", imagefiles.item(index));
-          fetch("http://127.0.0.1:8000/imgToText", {
+          // fetch("http://127.0.0.1:8000/imgToText", {
+          fetch("http://43.203.141.76/imgToText", {
             method: "POST",
             headers: {
               enctype: "multipart/form-data",
