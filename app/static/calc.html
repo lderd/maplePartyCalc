@@ -168,45 +168,6 @@
       }
       const tableItems = new TableItems();
       // 클로저를 사용해 테이블에 row 추가, 삭제하기 끝
-      // const btnCalculate = document.querySelector("#calculate");
-      // btnCalculate.addEventListener("click", (event) => {
-      //   const pcEtc = document.querySelector("#pc-etc").value.split(" ");
-      //   const pcEtcNum = pcEtc.map((str) => {
-      //     const num = Number(str);
-      //     return num;
-      //   });
-
-      //   let homeEtc = document.querySelector("#home-etc").value.split(" ");
-      //   const homeEtcNum = homeEtc.map((str) => {
-      //     const num = Number(str);
-      //     return num;
-      //   });
-
-      //   const pcList = [...pcEtcNum];
-      //   const pcSum = pcList.reduce((acc, num) => {
-      //     return acc + num;
-      //   }, 0);
-
-      //   const homeList = [...homeEtcNum];
-      //   const homeSum = homeList.reduce((acc, num) => {
-      //     return acc + num;
-      //   }, 0);
-
-      //   const marketPeople = Number(
-      //     document.querySelector("#market-people").value
-      //   );
-      //   const tradePeople = Number(
-      //     document.querySelector("#trade-people").value
-      //   );
-      //   const result =
-      //     ((pcSum * 0.97 + homeSum * 0.95) * 10000) /
-      //     (1 + marketPeople / 0.97 + tradePeople / 0.95);
-
-      //   const marketResultTag = document.querySelector("#market-resultTag");
-      //   marketResultTag.innerText = result / 0.97;
-      //   const tradeResultTag = document.querySelector("#trade-resultTag");
-      //   tradeResultTag.innerText = result / 0.95;
-      // });
       function calculate() {
         const homeTable = document.getElementById("home");
         // 수수료 = 가격 * 0.05 나머지는 버림
