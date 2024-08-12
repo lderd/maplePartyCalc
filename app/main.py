@@ -23,6 +23,10 @@ settings = Settings()
 
 app = FastAPI()
 
+@app.get("/allinone", response_class=FileResponse)
+def word():
+    return FileResponse(f"{settings.dirname}/static/allInOne.html")
+
 @app.post("/imgToText")
 async def ImgToTextPost(file: UploadFile):
     img = Image.open(file.file)
