@@ -300,11 +300,11 @@
           const imagefile = new FormData();
           imagefile.append("file", imagefiles.item(index));
           // 로컬 도커
-          fetch("http://127.0.0.1/imgToText", {
+          // fetch("http://127.0.0.1/imgToText", {
           // 로컬
           // fetch("http://127.0.0.1:8000/imgToText", {
           // 배포
-          // fetch("http://43.203.141.76/imgToText", {
+          fetch("http://13.124.233.0/imgToText", {
             method: "POST",
             headers: {
               enctype: "multipart/form-data",
