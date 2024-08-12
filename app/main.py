@@ -23,23 +23,6 @@ settings = Settings()
 
 app = FastAPI()
 
-
-@app.get("/calc")
-def calc():
-    return{"settings.apilayer_api_key":settings.apilayer_api_key, "settings.aws_access_key":settings.aws_access_key, "settings.aws_secret_access_key":settings.aws_secret_access_key, "settings.bucket_name":settings.bucket_name, "settings.dirname":settings.dirname}
-
-@app.get("/word", response_class=FileResponse)
-def word():
-    return FileResponse(f"{settings.dirname}/static/word.html")
-
-@app.get("/allinone", response_class=FileResponse)
-def word():
-    return FileResponse(f"{settings.dirname}/static/allInOne.html")
-
-@app.get("/imgToText", response_class=FileResponse)
-def ImgToText():
-    return FileResponse(f"{settings.dirname}/static/imgToText.html")
-
 @app.post("/imgToText")
 async def ImgToTextPost(file: UploadFile):
     img = Image.open(file.file)
