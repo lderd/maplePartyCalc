@@ -16,7 +16,10 @@ pyvenv.cfg
 pip-selfcheck.json
 
 .env
-.myimagetotextproject_user_accessKeys.csv
-.myimagetotextproject.pem
+*.csv
+*.pem
+
+runDocker.sh
+stopDocker.sh
 
 # End of https://www.toptal.com/developers/gitignore/api/venv
