@@ -1,3 +1,5 @@
+
+
 ## 배포
 
 배포는 aws ec2에 깃을 연결하여 docker build 후 docker 실행하는 방식으로 되어있음.
@@ -15,6 +17,10 @@ docker run -d --name mycontainer -p 80:80 myimage
 docker stop mycontainer
 docker rm mycontainer
 ```
+
+## DNS
+
+dnsexit에서 무료 dns 사용. 2025-08-17에 expiration됨. 30일 전부터 renew 가능. 1년단위로 계속 renew 할 시 무료.
 
 ## 아래를 app파일 내부에 .env 환경변수 파일에 저장하여 사용할것
 

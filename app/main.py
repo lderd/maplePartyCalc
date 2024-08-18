@@ -23,7 +23,7 @@ settings = Settings()
 
 app = FastAPI()
 
-@app.get("/allinone", response_class=FileResponse)
+@app.get("/", response_class=FileResponse)
 def word():
     return FileResponse(f"{settings.dirname}/static/allInOne.html")
 
