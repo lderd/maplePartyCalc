@@ -21,5 +21,6 @@ pip-selfcheck.json
 
 runDocker.sh
 stopDocker.sh
+removeAllImages.sh
 
 # End of https://www.toptal.com/developers/gitignore/api/venv
