@@ -1,6 +1,6 @@
 import os
 from fastapi import FastAPI, UploadFile
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, RedirectResponse
 from PIL import Image
 import requests
 import boto3
@@ -50,3 +50,7 @@ async def ImgToTextPost(file: UploadFile):
     os.remove(f'{settings.dirname}/images/{filename}')
 
     return response
+
+@app.exception_handler(404)
+def error_handler_404(_, __):
+    return RedirectResponse("/")
