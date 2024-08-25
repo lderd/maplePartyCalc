@@ -19,6 +19,7 @@ pip-selfcheck.json
 *.csv
 *.pem
 
+Dockerfile
 runDocker.sh
 stopDocker.sh
 removeAllImages.sh
