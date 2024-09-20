@@ -21,7 +21,7 @@ class Settings(BaseSettings):
 
 settings = Settings()
 
-app = FastAPI()
+app = FastAPI(docs_url=None, redoc_url=None)
 
 @app.get("/", response_class=FileResponse)
 def word():

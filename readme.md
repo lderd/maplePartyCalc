@@ -1,5 +1,3 @@
-
-
 ## 배포
 
 배포는 aws ec2에 깃을 연결하여 docker build 후 docker 실행하는 방식으로 되어있음.
