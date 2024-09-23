@@ -1,28 +1,3 @@
-## 배포
+# 메이플 보스 분배 헬퍼
 
-배포는 aws ec2에 깃을 연결하여 docker build 후 docker 실행하는 방식으로 되어있음.
-
-실행할 때, 깃 내부의 `Dockerfile`의 위치에서 다음 실행
-
-```bash
-docker build -t myimage .
-docker run -d --name mycontainer -p 80:80 myimage
-```
-
-정지할 때, 컨테이너는 고유해야 하기에 사용한 컨테이너를 삭제한다.
-
-```bash
-docker stop mycontainer
-docker rm mycontainer
-```
-
-## DNS
-
-dnsexit에서 무료 dns 사용. 2025-08-17에 expiration됨. 30일 전부터 renew 가능. 1년단위로 계속 renew 할 시 무료.
-
-## 아래를 app파일 내부에 .env 환경변수 파일에 저장하여 사용할것
-
-APILAYER_KEY="이미지 to 텍스트 사이트 api 키"  
-AWS_ACCESS_KEY="aws 엑세스 키"  
-AWS_SECRET_ACCESS_KEY="aws 비밀 엑세스 키"  
-AWS_BUCKET_NAME="이미지 업로드 될 s3 버킷 이름"
+파티로 메이플스토리 보스를 잡았다면 어떤 아이템을 얻었는지 일일이 찾고 기록해야 합니다. 아이템 획득 기록을 채팅창에서 캡쳐해서 이를 손쉽게 하세요. 채팅의 캡쳐 이미지를 보내서 텍스트를 받아오거나 텍스트로 된 채팅 기록을 입력칸에 입력한 후 아래의 제출하기 버튼을 눌러보세요.
