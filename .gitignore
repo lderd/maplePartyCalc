@@ -23,5 +23,6 @@ Dockerfile
 runDocker.sh
 stopDocker.sh
 removeAllImages.sh
+.readme
 
 # End of https://www.toptal.com/developers/gitignore/api/venv
