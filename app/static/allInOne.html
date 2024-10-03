@@ -84,7 +84,9 @@
         <br />
         <p>주의 : 등장 횟수와 수량이 맞지 않을 수 있습니다.</p>
         <p>예시)</p>
-        <p>꺼지지 않는 불꽃 아이템을 2개 얻었습니다. (기타)    =>    등장 1회, 획득 2개</p>
+        <p>
+          꺼지지 않는 불꽃 아이템을 2개 얻었습니다. (기타) => 등장 1회, 획득 2개
+        </p>
         <hr />
         <div id="image_form_container">
           <form onsubmit="sendImage()">
@@ -108,104 +110,112 @@
         </div>
         <div id="image_container"></div>
         <div id="result_text">
-            <textarea style="width: 70%;resize: none;" rows="15" id="the_text" /></textarea>
+          <textarea
+            style="width: 70%; resize: none"
+            rows="15"
+            id="the_text"
+          ></textarea>
           <br />
+          <button onclick="resetText()">내용지우기</button>
           <button onclick="wordCalculate()">제출하기</button>
         </div>
-        <table style="width: 60%; table-layout: fixed;" class="table table-striped">
+        <table
+          style="width: 60%; table-layout: fixed"
+          class="table table-striped"
+        >
           <thead>
             <tr>
-              <th scope="col" style="width: 80%;">품목</th>
+              <th scope="col" style="width: 80%">품목</th>
               <th scope="col">등장 횟수</th>
             </tr>
           </thead>
-          <tbody id="table_body">
-          </tbody>
+          <tbody id="table_body"></tbody>
         </table>
-    </div>
-    <div id="calc" hidden>
-      <h1>분배금 계산기</h1>
+      </div>
+      <div id="calc" hidden>
+        <h1>분배금 계산기</h1>
 
-      <hr />
-      <br />
-      <div class="container" id="calc_container">
-        <div class="calc-div">
-          <h3>집에서 받음</h3>
-          <p>경매장 수수료 5% 품목</p>
-          <button onclick="tableItems.plus('home')">+</button>
-          <table
-            class="table table-striped table-bordered"
-            style="table-layout: fixed; width: 90%"
-          >
-            <thead>
-              <tr>
-                <th scope="col" style="width: 32%">가격</th>
-                <th scope="col" style="width: 5%">*</th>
-                <th scope="col" style="width: 21%">수량</th>
-                <th scope="col" style="width: 32%">비고</th>
-                <th scope="col" style="width: 10%">-</th>
-              </tr>
-            </thead>
-            <tbody id="home"></tbody>
-          </table>
+        <hr />
+        <br />
+        <div class="container" id="calc_container">
+          <div class="calc-div">
+            <h3>집에서 받음</h3>
+            <p>경매장 수수료 5% 품목</p>
+            <button onclick="tableItems.plus('home')">+</button>
+            <table
+              class="table table-striped table-bordered"
+              style="table-layout: fixed; width: 90%"
+            >
+              <thead>
+                <tr>
+                  <th scope="col" style="width: 32%">가격</th>
+                  <th scope="col" style="width: 5%">*</th>
+                  <th scope="col" style="width: 21%">수량</th>
+                  <th scope="col" style="width: 32%">비고</th>
+                  <th scope="col" style="width: 10%">-</th>
+                </tr>
+              </thead>
+              <tbody id="home"></tbody>
+            </table>
+          </div>
+          <div class="calc-div">
+            <h3>PC방에서 받음</h3>
+            <p>경매장 수수료 3% 품목</p>
+            <button onclick="tableItems.plus('pc')">+</button>
+            <table
+              class="table table-striped table-bordered calc_table"
+              style="table-layout: fixed; width: 90%"
+            >
+              <thead>
+                <tr>
+                  <th scope="col" style="width: 32%">가격</th>
+                  <th scope="col" style="width: 5%">*</th>
+                  <th scope="col" style="width: 21%">수량</th>
+                  <th scope="col" style="width: 32%">비고</th>
+                  <th scope="col" style="width: 10%">-</th>
+                </tr>
+              </thead>
+              <tbody id="pc"></tbody>
+            </table>
+          </div>
         </div>
-        <div class="calc-div">
-          <h3>PC방에서 받음</h3>
-          <p>경매장 수수료 3% 품목</p>
-          <button onclick="tableItems.plus('pc')">+</button>
-          <table
-            class="table table-striped table-bordered calc_table"
-            style="table-layout: fixed; width: 90%"
+
+        <hr />
+
+        <div>
+          <h3>나 제외</h3>
+          <label for="market-people">경매장 분배 인원</label>
+          <input type="text" id="market-people" /> 명
+          <br />
+          <br />
+          <label for="trade-people">거래창 분배 인원</label>
+          <input type="text" id="trade-people" /> 명
+        </div>
+
+        <div class="d-flex justify-content-center my-3">
+          <button
+            class="btn-primary rounded-3"
+            id="calculate"
+            onclick="calculate()"
           >
-            <thead>
-              <tr>
-                <th scope="col" style="width: 32%">가격</th>
-                <th scope="col" style="width: 5%">*</th>
-                <th scope="col" style="width: 21%">수량</th>
-                <th scope="col" style="width: 32%">비고</th>
-                <th scope="col" style="width: 10%">-</th>
-              </tr>
-            </thead>
-            <tbody id="pc"></tbody>
-          </table>
+            계산하기
+          </button>
+        </div>
+
+        <br />
+        <hr />
+        <br />
+
+        <div class="text-center">
+          <h2>
+            경매장 분배받는 사람 금액 : <span id="market-resultTag">결과</span>
+          </h2>
+          <br />
+          <h2>
+            거래창 분배받는 사람 금액 : <span id="trade-resultTag">결과</span>
+          </h2>
         </div>
       </div>
-
-      <hr />
-
-      <div>
-        <h3>나 제외</h3>
-        <label for="market-people">경매장 분배 인원</label>
-        <input type="text" id="market-people" /> 명
-        <br />
-        <br />
-        <label for="trade-people">거래창 분배 인원</label>
-        <input type="text" id="trade-people" /> 명
-      </div>
-
-      <div class="d-flex justify-content-center my-3">
-        <button
-          class="btn-primary rounded-3"
-          id="calculate"
-          onclick="calculate()"
-        >
-          계산하기
-        </button>
-      </div>
-
-      <br />
-      <hr />
-      <br />
-
-      <div class="text-center">
-        <h2>
-          경매장 분배받는 사람 금액 : <span id="market-resultTag">결과</span>
-        </h2>
-        <br />
-        <h2>
-          거래창 분배받는 사람 금액 : <span id="trade-resultTag">결과</span>
-        </h2>
-      </div></div>
     </div>
     <!-- 부트스트랩 자바스크립트 -->
     <script
@@ -227,54 +237,79 @@
         };
       }
       pageSelect();
-      //
+      // 페이지 선택 끝
+      // 텍스트 지우기
+      function resetText() {
+        const textarea = document.getElementById("the_text");
+        textarea.value = "";
+      }
+      // 텍스트 지우기 끝
       // 텍스트에서 아이템 추출
       function wordCalculate() {
-          theText = document.getElementById('the_text').value.trim()
-          const tableList = {};
-          tableList['검은 환생의 불꽃'] = theText.split('검은 환생의 불꽃').length - 1  // 검은 환생의 불꽃
-          tableList['영원한 환생의 불꽃'] = theText.split('영원한 환생의').length - 1  // 영원한 환생의
-          tableList['강력한 환생의 불꽃'] = theText.split('강력한 환생의').length - 1  // 강력한 환생의
-          
-          tableList['태초의 정수'] = theText.split('태초의 정수').length - 1  // 태초의 정수
-          tableList['영원히 꺼지지 않는 불꽃'] = theText.split('영원히 꺼지지').length - 1  // 영원히 꺼지지 (영꺼 + 검꺼)
-          tableList['꺼지지 않는 불꽃'] = theText.split('꺼지지 않는 불꽃').length - 1  // 꺼지지 않는 불꽃
-          
-          tableList['아케인셰이드 방어구 상자'] = theText.split('아케인셰이드 방').length - 1  // 아케인셰이드 방
-          tableList['아케인셰이드 무기 상자'] = theText.split('아케인셰이드 무').length - 1  // 아케인셰이드 무
-          
-          tableList['매지컬 무기 주문서 교환권'] = theText.split('매지컬 무기').length - 1  // 프리미엄 펫장비
-          tableList['프리미엄 펫장비 스크롤 교환권'] = theText.split('프리미엄 펫장비').length - 1  // 프리미엄 펫장비
-          tableList['프리미엄 악세서리 스크롤 교환권'] = theText.split('프리미엄 악세').length - 1  // 프리미엄 펫장비
-          
-          tableList['소형 고농축 경험 축적의 비약'] = theText.split('소형 고농축 경').length - 1  // 소형 고농축 경
-          tableList['소형 경험 축적의 비약'] = theText.split('소형 경험 축적').length - 1  // 소형 경험 축적
-          tableList['놀라운 긍정의 혼돈주문서'] = theText.split('놀라운 긍정의').length - 1  // 놀라운 긍정의
-          tableList['대형 보스 명예의 훈장'] = theText.split('대형 보스 명예').length - 1  // 대형 보스 명예
-          tableList['반짝이는 빨간별 물약'] = theText.split('반짝이는 빨간').length - 1  // 반짝이는 빨간
-          tableList['반짝이는 파란별 물약'] = theText.split('반짝이는 파란').length - 1  // 반짝이는 파란
-          tableList['추가경험치 50% 쿠폰'] = theText.split('추가 경험치 50').length - 1  // 추가 경험치 50
-          
-          const tableBody = document.getElementById('table_body')
-          tableBody.replaceChildren()
-          for (const key in tableList) {
-            const tableR = tableBody.insertRow();
-            const tableC1 = tableR.insertCell();
-            const tableD1 = document.createTextNode(`${key}`)
-            tableC1.appendChild(tableD1)
-            const tableC2 = tableR.insertCell();
-            const tableD2 = document.createTextNode(`${tableList[key]}`)
-            tableC2.appendChild(tableD2)
-          }
+        theText = document.getElementById("the_text").value.trim();
+        const tableList = {};
+        tableList["검은 환생의 불꽃"] =
+          theText.split("검은 환생의 불꽃").length - 1; // 검은 환생의 불꽃
+        tableList["영원한 환생의 불꽃"] =
+          theText.split("영원한 환생의").length - 1; // 영원한 환생의
+        tableList["강력한 환생의 불꽃"] =
+          theText.split("강력한 환생의").length - 1; // 강력한 환생의
+
+        tableList["태초의 정수"] = theText.split("태초의 정수").length - 1; // 태초의 정수
+        tableList["영원히 꺼지지 않는 불꽃"] =
+          theText.split("영원히 꺼지지").length - 1; // 영원히 꺼지지 (영꺼 + 검꺼)
+        tableList["꺼지지 않는 불꽃"] =
+          theText.split("꺼지지 않는 불꽃").length - 1; // 꺼지지 않는 불꽃
+
+        tableList["아케인셰이드 방어구 상자"] =
+          theText.split("아케인셰이드 방").length - 1; // 아케인셰이드 방
+        tableList["아케인셰이드 무기 상자"] =
+          theText.split("아케인셰이드 무").length - 1; // 아케인셰이드 무
+
+        tableList["매지컬 무기 주문서 교환권"] =
+          theText.split("매지컬 무기").length - 1; // 프리미엄 펫장비
+        tableList["프리미엄 펫장비 스크롤 교환권"] =
+          theText.split("프리미엄 펫장비").length - 1; // 프리미엄 펫장비
+        tableList["프리미엄 악세서리 스크롤 교환권"] =
+          theText.split("프리미엄 악세").length - 1; // 프리미엄 펫장비
+
+        tableList["소형 고농축 경험 축적의 비약"] =
+          theText.split("소형 고농축 경").length - 1; // 소형 고농축 경
+        tableList["소형 경험 축적의 비약"] =
+          theText.split("소형 경험 축적").length - 1; // 소형 경험 축적
+        tableList["놀라운 긍정의 혼돈주문서"] =
+          theText.split("놀라운 긍정의").length - 1; // 놀라운 긍정의
+        tableList["대형 보스 명예의 훈장"] =
+          theText.split("대형 보스 명예").length - 1; // 대형 보스 명예
+        tableList["반짝이는 빨간별 물약"] =
+          theText.split("반짝이는 빨간").length - 1; // 반짝이는 빨간
+        tableList["반짝이는 파란별 물약"] =
+          theText.split("반짝이는 파란").length - 1; // 반짝이는 파란
+        tableList["추가경험치 50% 쿠폰"] =
+          theText.split("추가 경험치 50").length - 1; // 추가 경험치 50
+
+        const tableBody = document.getElementById("table_body");
+        tableBody.replaceChildren();
+        for (const key in tableList) {
+          const tableR = tableBody.insertRow();
+          const tableC1 = tableR.insertCell();
+          const tableD1 = document.createTextNode(`${key}`);
+          tableC1.appendChild(tableD1);
+          const tableC2 = tableR.insertCell();
+          const tableD2 = document.createTextNode(`${tableList[key]}`);
+          tableC2.appendChild(tableD2);
         }
-      // 
-      function sendImage() {
+      }
+      // 텍스트에서 아이템 추출 끝
+      // 이미지 전송
+      async function sendImage() {
         event.preventDefault();
-        const img_to_text_submit = document.getElementById("img_to_text_submit");
+        const img_to_text_submit =
+          document.getElementById("img_to_text_submit");
         img_to_text_submit.disabled = true;
         const imagefiles = document.getElementById("image_input").files;
         const textarea = document.getElementById("the_text");
-        let img_to_text_result = "";
+        let img_to_text_result = textarea.value;
         // 로딩스피너 만들어 넣기
         for (let index = 0; index < imagefiles.length; index++) {
           const spinner_container = document.createElement("div");
@@ -296,6 +331,7 @@
           const img_div = document.getElementById(`image_box_${index}`);
           img_div.appendChild(spinner_container);
         }
+        const errorFileNumber = [];
         for (let index = 0; index < imagefiles.length; index++) {
           const imagefile = new FormData();
           imagefile.append("file", imagefiles.item(index));
@@ -304,7 +340,7 @@
           // 로컬
           // fetch("http://127.0.0.1:8000/imgToText", {
           // 배포
-          fetch("https://mapledrop.work.gd/imgToText", {
+          await fetch("https://mapledrop.work.gd/imgToText", {
             method: "POST",
             headers: {
               enctype: "multipart/form-data",
@@ -314,15 +350,25 @@
             .then((response) => response.json())
             .then((data) => {
               img_to_text_result += data.all_text;
-              textarea.innerText = img_to_text_result;
+              textarea.value = img_to_text_result;
               const spinner_container = document.getElementById(
                 `spinner_${index}`
               );
               spinner_container.remove();
             })
-            .catch((error) => console.log(error));
+            .catch((error) => {
+              console.log(error);
+              errorFileNumber.push(index + 1);
+            });
+        }
+        if (errorFileNumber.length >= 1) {
+          alert(
+            `${errorFileNumber} 번의 이미지 처리 과정에서 문제가 발생했습니다`
+          );
         }
       }
+      // 이미지 전송 끝
+      // 이미지 업로드
       function loadFile(input) {
         const upload_label = document.getElementById("image_input_label");
         upload_label.innerText = "이미지 다시 선택하기";
@@ -359,6 +405,7 @@
           container.appendChild(image_box);
         }
       }
+      // 이미지 업로드 끝
       // 클로저를 사용해 테이블에 row 추가, 삭제하기
       function TableItems() {
         this.plus = function (where) {
@@ -399,6 +446,7 @@
       }
       const tableItems = new TableItems();
       // 클로저를 사용해 테이블에 row 추가, 삭제하기 끝
+      // 분배금 계산하기
       function calculate() {
         const homeTable = document.getElementById("home");
         // 수수료 = 가격 * 0.05 나머지는 버림
@@ -443,6 +491,7 @@
         const tradeResultTag = document.querySelector("#trade-resultTag");
         tradeResultTag.innerText = Number.parseInt(result / 0.95);
       }
+      // 분배금 계산하기 끝
     </script>
   </body>
 </html>
